@@ -26,6 +26,7 @@ jobs:
       - name: set application.yml
         run: |
           echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
+          find src/main/resources
 
       # 3. Spring Boot 애플리케이션 빌드
       - name: Build with Gradle
