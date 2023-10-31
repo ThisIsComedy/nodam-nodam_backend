@@ -22,24 +22,29 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # 2. Spring Boot 애플리케이션 빌드
+      # 2. application.yml 덮어 씌우기
+      - name: set application.yml
+        run: |
+          echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
+
+      # 3. Spring Boot 애플리케이션 빌드
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2
         with:
           arguments: clean bootJar
 
-      # 3. Docker 이미지 빌드
+      # 4. Docker 이미지 빌드
       - name: docker image build
         run: docker buildx build --platform=linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/nodam-nodam_backend .
 
-      # 4. Dockerhub 로그인
+      # 5. Dockerhub 로그인
       - name: docker login
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # 5. Dockerhub push
+      # 6. Dockerhub push
       - name: docker hub push
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/nodam-nodam_backend
 
