@@ -63,4 +63,11 @@ jobs:
 
       # 4. 이미지 태그 none인 이미지 삭제
       - name: docker rmi none image
-        run: sudo docker rmi $(docker images -f "dangling=true" -q)
+        run: |
+          dangling_images=$(docker images -f "dangling=true" -q)
+  
+          if [ -n "$dangling_images" ]; then
+          sudo docker rmi $dangling_images
+          else
+          echo "No dangling images to remove."
+          fi
