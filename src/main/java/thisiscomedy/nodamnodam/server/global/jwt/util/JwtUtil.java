@@ -8,10 +8,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import thisiscomedy.nodamnodam.server.global.jwt.exception.ExpiredTokenException;
 import thisiscomedy.nodamnodam.server.global.jwt.exception.InvalidTokenException;
+import thisiscomedy.nodamnodam.server.global.security.auth.AuthDetails;
+import thisiscomedy.nodamnodam.server.global.security.auth.AuthDetailsService;
 
 import java.util.Collections;
 
@@ -20,20 +21,19 @@ import java.util.Collections;
 public class JwtUtil {
 
     private final JwtProperties jwtProperties;
+    private final AuthDetailsService authDetailsService;
 
     public Authentication getAuthentication(String token) {
-        Claims claims = getClaims(token);
+        AuthDetails authDetails = (AuthDetails) authDetailsService.loadUserByUsername(extractUserId(token));
 
-        User principal = new User(claims.getSubject(), "", Collections.emptyList());
-
-        return new UsernamePasswordAuthenticationToken(principal, token, Collections.emptyList());
+        return new UsernamePasswordAuthenticationToken(authDetails, token, Collections.emptyList());
     }
 
     public String resolveToken(HttpServletRequest request) {
         String bearer = request.getHeader("Authorization");
 
         if (bearer == null || !bearer.startsWith(jwtProperties.getPrefix())) {
-            throw InvalidTokenException.EXCEPTION;
+            return null;
         }
 
         return bearer.split(" ")[1].trim();
@@ -51,5 +51,9 @@ public class JwtUtil {
         } catch (JwtException e) {
             throw InvalidTokenException.EXCEPTION;
         }
+    }
+
+    public String extractUserId(String token) {
+        return getClaims(token).get("userId").toString();
     }
 }

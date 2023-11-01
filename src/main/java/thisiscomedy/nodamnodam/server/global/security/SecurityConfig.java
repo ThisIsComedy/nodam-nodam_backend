@@ -11,14 +11,19 @@ import org.springframework.security.config.annotation.web.configurers.FormLoginC
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import thisiscomedy.nodamnodam.server.global.jwt.filter.JwtFilter;
+import thisiscomedy.nodamnodam.server.global.jwt.util.JwtUtil;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtUtil jwtUtil;
 
     private final String[] whiteList = {};
 
@@ -38,6 +43,9 @@ public class SecurityConfig {
                         .requestMatchers(whiteList).permitAll()
                         .anyRequest().authenticated()
                 );
+
+        http
+                .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
