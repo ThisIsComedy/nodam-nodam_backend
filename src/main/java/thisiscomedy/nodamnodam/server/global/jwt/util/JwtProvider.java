@@ -15,21 +15,21 @@ public class JwtProvider {
 
     private final JwtProperties jwtProperties;
 
-    public String createAccessToken(Long userId) {
-        return createToken(userId, jwtProperties.getAccessTokenExp());
+    public String createAccessToken(String email) {
+        return createToken(email, jwtProperties.getAccessTokenExp());
     }
 
-    public TokenResponse createToken(Long userId) {
-        String accessToken = createToken(userId, jwtProperties.getAccessTokenExp());
-        String refreshToken = createToken(userId, jwtProperties.getRefreshTokenExp());
+    public TokenResponse createToken(String email) {
+        String accessToken = createToken(email, jwtProperties.getAccessTokenExp());
+        String refreshToken = createToken(email, jwtProperties.getRefreshTokenExp());
 
         return new TokenResponse(accessToken, refreshToken);
     }
 
-    private String createToken(Long userId, Long exp) {
+    private String createToken(String email, Long exp) {
         Date now = new Date();
         Claims claims = Jwts.claims();
-        claims.put("userId", userId);
+        claims.put("email", email);
 
         return Jwts.builder()
                 .setClaims(claims)
