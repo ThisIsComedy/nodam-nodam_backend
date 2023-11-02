@@ -19,14 +19,18 @@ public class User extends BaseTimeEntity {
     private String name;
 
     @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
     private Integer smokePerDay;
 
     @Column(nullable = false)
     private Integer cigarettePrice;
 
     @Builder
-    public User(String name, Integer smokePerDay, Integer cigarettePrice) {
+    public User(String name, String email, Integer smokePerDay, Integer cigarettePrice) {
         this.name = name;
+        this.email = email;
         this.smokePerDay = smokePerDay;
         this.cigarettePrice = cigarettePrice;
     }

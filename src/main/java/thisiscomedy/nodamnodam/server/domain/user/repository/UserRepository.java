@@ -6,4 +6,6 @@ import thisiscomedy.nodamnodam.server.domain.user.domain.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
+    User findByEmail(String email);
 }
