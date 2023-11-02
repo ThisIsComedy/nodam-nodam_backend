@@ -25,7 +25,9 @@ public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
 
-    private final String[] whiteList = {};
+    private final String[] whiteList = {
+            "/api/auth/login"
+    };
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
