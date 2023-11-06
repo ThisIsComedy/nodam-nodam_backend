@@ -16,7 +16,7 @@ public class RefreshTokenSaveService {
 
     public void execute(TokenResponse tokenResponse) {
         System.out.println(tokenResponse.accessToken());
-        String userId = jwtUtil.extractEmail(tokenResponse.accessToken());
+        String userId = jwtUtil.extractUserId(tokenResponse.accessToken());
 
         refreshTokenRepository.save(
                 RefreshToken.builder()

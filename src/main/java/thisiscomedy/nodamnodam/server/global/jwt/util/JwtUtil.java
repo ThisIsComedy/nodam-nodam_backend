@@ -20,7 +20,7 @@ public class JwtUtil {
     private final AuthDetailsService authDetailsService;
 
     public Authentication getAuthentication(String token) {
-        AuthDetails authDetails = (AuthDetails) authDetailsService.loadUserByUsername(extractEmail(token));
+        AuthDetails authDetails = (AuthDetails) authDetailsService.loadUserByUsername(extractUserId(token));
 
         return new UsernamePasswordAuthenticationToken(authDetails, token, Collections.emptyList());
     }
@@ -43,8 +43,8 @@ public class JwtUtil {
                 .getBody();
     }
 
-    public String extractEmail(String token) {
-        return getClaims(token).get("email").toString();
+    public String extractUserId(String token) {
+        return getClaims(token).get("userId").toString();
     }
 
     public Long getRefreshTokenExp() {
