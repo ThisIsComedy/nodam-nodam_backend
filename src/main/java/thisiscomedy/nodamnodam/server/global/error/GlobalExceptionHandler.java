@@ -18,7 +18,8 @@ public class GlobalExceptionHandler {
                 .body(
                     new ErrorResponse(
                         errorCode.getCode(),
-                        errorCode.getMessage()
+                        errorCode.getMessage(),
+                        e.getEtc()
                     )
                 );
     }

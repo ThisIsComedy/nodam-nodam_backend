@@ -24,20 +24,20 @@ public class ExceptionFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         } catch (NodamException e) {
-            writeErrorCode(response, e.getErrorCode());
+            writeErrorCode(response, e.getErrorCode(), e.getEtc());
         } catch (ExpiredJwtException e) {
-            writeErrorCode(response, ErrorCode.EXPIRED_TOKEN);
+            writeErrorCode(response, ErrorCode.EXPIRED_TOKEN, null);
         } catch (JwtException e) {
-            writeErrorCode(response, ErrorCode.INVALID_TOKEN);
+            writeErrorCode(response, ErrorCode.INVALID_TOKEN, null);
         } catch (Exception e) {
             e.printStackTrace();
-            writeErrorCode(response, ErrorCode.INTERNAL_SERVER_ERROR);
+            writeErrorCode(response, ErrorCode.INTERNAL_SERVER_ERROR, null);
         }
     }
 
-    private void writeErrorCode(HttpServletResponse response, ErrorCode errorCode) throws IOException {
+    private void writeErrorCode(HttpServletResponse response, ErrorCode errorCode, String info) throws IOException {
         ErrorResponse errorResponse = new ErrorResponse(
-                errorCode.getCode(), errorCode.getMessage()
+                errorCode.getCode(), errorCode.getMessage(), info
         );
 
         response.setStatus(errorResponse.code());

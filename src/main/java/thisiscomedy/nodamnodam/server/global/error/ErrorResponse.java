@@ -5,7 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public record ErrorResponse(
         int code,
-        String message
+        String message,
+        String etc
 ) {
     @Override
     public String toString() {
