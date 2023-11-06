@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import thisiscomedy.nodamnodam.server.global.error.ExceptionFilter;
 import thisiscomedy.nodamnodam.server.global.jwt.filter.JwtFilter;
 import thisiscomedy.nodamnodam.server.global.jwt.util.JwtUtil;
 
@@ -47,7 +48,8 @@ public class SecurityConfig {
                 );
 
         http
-                .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new ExceptionFilter(), JwtFilter.class);
 
         return http.build();
     }

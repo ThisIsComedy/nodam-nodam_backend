@@ -12,7 +12,9 @@ public enum ErrorCode {
 
     INVALID_TOKEN(403, "잘못된 토큰입니다."),
     EXPIRED_TOKEN(403, "만료된 토큰입니다."),
-    OAUTH_TOKEN_NOT_FOUNT(404, "OAuth 액세스 토큰을 찾을 수 없습니다.");
+    OAUTH_TOKEN_NOT_FOUNT(404, "OAuth 액세스 토큰을 찾을 수 없습니다."),
+
+    INTERNAL_SERVER_ERROR(500, "서버 에러");
 
     private final int code;
     private final String message;
