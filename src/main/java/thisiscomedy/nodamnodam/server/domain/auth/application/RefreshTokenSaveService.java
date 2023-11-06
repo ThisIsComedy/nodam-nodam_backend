@@ -15,14 +15,14 @@ public class RefreshTokenSaveService {
     private final JwtUtil jwtUtil;
 
     public void execute(TokenResponse tokenResponse) {
-        System.out.println(tokenResponse.getAccessToken());
-        String userId = jwtUtil.extractEmail(tokenResponse.getAccessToken());
+        System.out.println(tokenResponse.accessToken());
+        String userId = jwtUtil.extractEmail(tokenResponse.accessToken());
 
         refreshTokenRepository.save(
                 RefreshToken.builder()
                         .userId(userId)
-                        .token(tokenResponse.getRefreshToken())
-                        .accessToken(tokenResponse.getAccessToken())
+                        .token(tokenResponse.refreshToken())
+                        .accessToken(tokenResponse.accessToken())
                         .ttl(jwtUtil.getRefreshTokenExp())
                         .build()
         );
