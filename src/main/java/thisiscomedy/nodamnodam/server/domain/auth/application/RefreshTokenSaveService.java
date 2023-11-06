@@ -15,7 +15,6 @@ public class RefreshTokenSaveService {
     private final JwtUtil jwtUtil;
 
     public void execute(TokenResponse tokenResponse) {
-        System.out.println(tokenResponse.accessToken());
         String userId = jwtUtil.extractUserId(tokenResponse.accessToken());
 
         refreshTokenRepository.save(

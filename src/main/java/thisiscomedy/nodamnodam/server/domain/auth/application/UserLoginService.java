@@ -25,7 +25,6 @@ public class UserLoginService {
     private final GoogleAuthProperties googleAuthProperties;
     private final GoogleInfoClient googleInfoClient;
     private final JwtProvider jwtProvider;
-    private final RefreshTokenSaveService refreshTokenSaveService;
 
     public TokenResponse execute(String code) {
         code = code.replace("%2f", "/");
