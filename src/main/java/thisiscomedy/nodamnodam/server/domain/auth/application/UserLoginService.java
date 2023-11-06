@@ -59,10 +59,6 @@ public class UserLoginService {
 
         Long userId = userGetService.findByEmail(email).getId();
 
-        TokenResponse tokenResponse = jwtProvider.createToken(userId);
-
-        refreshTokenSaveService.execute(tokenResponse);
-
-        return tokenResponse;
+        return jwtProvider.createToken(userId);
     }
 }
