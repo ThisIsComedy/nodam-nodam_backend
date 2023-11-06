@@ -20,8 +20,8 @@ public class UserRegisterService {
             throw AlreadyRegisteredUserException.EXCEPTION;
         }
 
-        String email = userSaveService.updateUser(request);
+        Long userId = userSaveService.updateUser(request);
 
-        return jwtProvider.createToken(email);
+        return jwtProvider.createToken(userId);
     }
 }
