@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import thisiscomedy.nodamnodam.server.domain.auth.presentation.dto.request.UserRegisterRequest;
 import thisiscomedy.nodamnodam.server.global.entity.BaseTimeEntity;
 
 @Entity
@@ -33,5 +34,12 @@ public class User extends BaseTimeEntity {
         this.email = email;
         this.smokePerDay = smokePerDay;
         this.cigarettePrice = cigarettePrice;
+    }
+
+    public User update(UserRegisterRequest request) {
+        this.name = request.name();
+        this.smokePerDay = request.smokePerDay();
+        this.cigarettePrice = request.cigarettePrice();
+        return this;
     }
 }

@@ -2,7 +2,9 @@ package thisiscomedy.nodamnodam.server.domain.user.application;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import thisiscomedy.nodamnodam.server.domain.auth.presentation.dto.request.UserRegisterRequest;
 import thisiscomedy.nodamnodam.server.domain.user.domain.User;
+import thisiscomedy.nodamnodam.server.domain.user.exception.UserNotFoundException;
 import thisiscomedy.nodamnodam.server.domain.user.repository.UserRepository;
 
 @Service
@@ -20,6 +22,16 @@ public class UserSaveService {
     }
 
     public boolean userAdditionalInfoIsEmpty(String email) {
-        return userRepository.findByEmail(email).get().getName() == null;
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+        return user.getName() == null
+                && user.getSmokePerDay() == null
+                && user.getCigarettePrice() == null;
+    }
+
+    public String updateUser(UserRegisterRequest request) {
+        User user = userRepository.findByEmail(request.email()).get();
+
+        return userRepository.save(user.update(request)).getEmail();
     }
 }

@@ -27,7 +27,8 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
 
     private final String[] whiteList = {
-            "/api/auth/login"
+            "/api/auth/login",
+            "/api/auth/register"
     };
 
     @Bean
