@@ -6,4 +6,6 @@ import thisiscomedy.nodamnodam.server.domain.auth.domain.RefreshToken;
 
 @EnableRedisRepositories
 public interface RefreshTokenRepository extends CrudRepository<RefreshToken, String> {
+
+    boolean existsByAccessToken(String accessToken);
 }

@@ -11,6 +11,7 @@ import thisiscomedy.nodamnodam.server.global.security.auth.AuthDetails;
 import thisiscomedy.nodamnodam.server.global.security.auth.AuthDetailsService;
 
 import java.util.Collections;
+import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ public class JwtUtil {
     private final AuthDetailsService authDetailsService;
 
     public Authentication getAuthentication(String token) {
-        AuthDetails authDetails = (AuthDetails) authDetailsService.loadUserByUsername(extractEmail(token));
+        AuthDetails authDetails = (AuthDetails) authDetailsService.loadUserByUsername(extractUserId(token));
 
         return new UsernamePasswordAuthenticationToken(authDetails, token, Collections.emptyList());
     }
@@ -43,11 +44,25 @@ public class JwtUtil {
                 .getBody();
     }
 
-    public String extractEmail(String token) {
-        return getClaims(token).get("email").toString();
+    public String extractUserId(String token) {
+        return getClaims(token).get("userId").toString();
     }
 
     public Long getRefreshTokenExp() {
         return jwtProperties.getRefreshTokenExp();
+    }
+
+    public Long getExpTime(String token) {
+        long exp = Jwts.parserBuilder()
+                .setSigningKey(jwtProperties.getSecretKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getExpiration()
+                .getTime();
+
+        long currentTime = new Date().getTime();
+
+        return exp - currentTime;
     }
 }

@@ -2,6 +2,7 @@ package thisiscomedy.nodamnodam.server.domain.auth.application;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import thisiscomedy.nodamnodam.server.domain.user.application.UserGetService;
 import thisiscomedy.nodamnodam.server.domain.user.application.UserSaveService;
 import thisiscomedy.nodamnodam.server.domain.user.exception.OAuthTokenNotFoundException;
 import thisiscomedy.nodamnodam.server.domain.user.exception.UserInfoUnsatisfiedException;
@@ -18,12 +19,12 @@ import thisiscomedy.nodamnodam.server.global.jwt.util.JwtProvider;
 @RequiredArgsConstructor
 public class UserLoginService {
 
+    private final UserGetService userGetService;
     private final UserSaveService userSaveService;
     private final GoogleGetTokenClient googleGetTokenClient;
     private final GoogleAuthProperties googleAuthProperties;
     private final GoogleInfoClient googleInfoClient;
     private final JwtProvider jwtProvider;
-    private final RefreshTokenSaveService refreshTokenSaveService;
 
     public TokenResponse execute(String code) {
         code = code.replace("%2f", "/");
@@ -55,10 +56,8 @@ public class UserLoginService {
             throw UserInfoUnsatisfiedException.EXCEPTION(email);
         }
 
-        TokenResponse tokenResponse = jwtProvider.createToken(email);
+        Long userId = userGetService.findByEmail(email).getId();
 
-        refreshTokenSaveService.execute(tokenResponse);
-
-        return tokenResponse;
+        return jwtProvider.createToken(userId);
     }
 }
