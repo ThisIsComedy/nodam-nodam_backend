@@ -25,7 +25,7 @@ jobs:
       # 2. application.yml 덮어 씌우기
       - name: set application.yml
         run: |
-          echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
+          echo "${{ secrets.ENV_YML }}" > src/main/resources/env.yml
           find src/main/resources
 
       # 3. Spring Boot 애플리케이션 빌드

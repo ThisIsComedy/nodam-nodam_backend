@@ -1,0 +1,36 @@
+spring:
+  config:
+    import: classpath:/env.yml
+    activate:
+      on-profile: local
+
+  data:
+    redis:
+      host: ${db.redis.host}
+      port: ${db.redis.port}
+      password: ${db.redis.password}
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${db.local.url}
+    username: ${db.local.username}
+    password: ${db.local.password}
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+jwt:
+  secretKey: ${jwt.secret}
+  prefix: ${jwt.prefix}
+  accessTokenExp: ${jwt.access-token-exp}
+  refreshTokenExp: ${jwt.refresh-token-exp}
+
+oauth:
+  google:
+    client-id: ${oauth.google.client-id}
+    client-secret: ${oauth.google.client-secret}
+    grant_type: authorization_code
+    redirect_uri: ${oauth.google.redirect-uri-local}
