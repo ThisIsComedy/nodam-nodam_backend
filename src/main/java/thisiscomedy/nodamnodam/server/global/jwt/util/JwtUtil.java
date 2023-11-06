@@ -1,16 +1,12 @@
 package thisiscomedy.nodamnodam.server.global.jwt.util;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import thisiscomedy.nodamnodam.server.global.jwt.exception.ExpiredTokenException;
-import thisiscomedy.nodamnodam.server.global.jwt.exception.InvalidTokenException;
 import thisiscomedy.nodamnodam.server.global.security.auth.AuthDetails;
 import thisiscomedy.nodamnodam.server.global.security.auth.AuthDetailsService;
 
@@ -40,17 +36,11 @@ public class JwtUtil {
     }
 
     public Claims getClaims(String token) {
-        try {
-            return Jwts.parserBuilder()
-                    .setSigningKey(jwtProperties.getSecretKey())
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-        } catch (ExpiredJwtException e) {
-            throw ExpiredTokenException.EXCEPTION;
-        } catch (JwtException e) {
-            throw InvalidTokenException.EXCEPTION;
-        }
+        return Jwts.parserBuilder()
+                .setSigningKey(jwtProperties.getSecretKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public String extractEmail(String token) {

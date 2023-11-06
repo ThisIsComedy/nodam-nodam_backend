@@ -52,7 +52,7 @@ public class UserLoginService {
         }
 
         if (userSaveService.userAdditionalInfoIsEmpty(email)) {
-            throw UserInfoUnsatisfiedException.EXCEPTION;
+            throw UserInfoUnsatisfiedException.EXCEPTION(email);
         }
 
         TokenResponse tokenResponse = jwtProvider.createToken(email);
