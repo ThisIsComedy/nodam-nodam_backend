@@ -19,6 +19,7 @@ public class RefreshToken {
     @Indexed
     private String token;
 
+    @Indexed
     private String accessToken;
 
     @TimeToLive

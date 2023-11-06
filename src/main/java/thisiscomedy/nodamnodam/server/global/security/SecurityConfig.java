@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import thisiscomedy.nodamnodam.server.domain.auth.application.RefreshTokenGetService;
 import thisiscomedy.nodamnodam.server.global.error.ExceptionFilter;
 import thisiscomedy.nodamnodam.server.global.jwt.filter.JwtFilter;
 import thisiscomedy.nodamnodam.server.global.jwt.util.JwtUtil;
@@ -25,6 +26,7 @@ import thisiscomedy.nodamnodam.server.global.jwt.util.JwtUtil;
 public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
+    private final RefreshTokenGetService refreshTokenGetService;
 
     private final String[] whiteList = {
             "/api/auth/login",
@@ -32,7 +34,7 @@ public class SecurityConfig {
     };
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .cors(Customizer.withDefaults())
                 .httpBasic(HttpBasicConfigurer::disable)
@@ -49,7 +51,7 @@ public class SecurityConfig {
                 );
 
         http
-                .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtFilter(jwtUtil, refreshTokenGetService), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new ExceptionFilter(), JwtFilter.class);
 
         return http.build();
