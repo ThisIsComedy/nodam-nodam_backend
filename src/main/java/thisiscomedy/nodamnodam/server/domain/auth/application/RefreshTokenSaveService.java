@@ -23,7 +23,7 @@ public class RefreshTokenSaveService {
                         .userId(userId)
                         .token(tokenResponse.refreshToken())
                         .accessToken(tokenResponse.accessToken())
-                        .ttl(jwtUtil.getRefreshTokenExp())
+                        .ttl(jwtUtil.getExpTime(tokenResponse.refreshToken()))
                         .build()
         );
     }
