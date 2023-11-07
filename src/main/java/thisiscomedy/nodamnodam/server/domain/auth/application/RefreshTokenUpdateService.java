@@ -16,6 +16,6 @@ public class RefreshTokenUpdateService {
         RefreshToken refreshToken = refreshTokenRepository.findByToken(originRefreshToken)
                 .orElseThrow(() -> InvalidTokenException.EXCEPTION);
 
-        return refreshToken.updateAccessToken(newAccessToken).getAccessToken();
+        return refreshTokenRepository.save(refreshToken.updateAccessToken(newAccessToken)).getAccessToken();
     }
 }
