@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import thisiscomedy.nodamnodam.server.domain.auth.application.AccessTokenReissueService;
 import thisiscomedy.nodamnodam.server.domain.auth.application.UserLoginService;
 import thisiscomedy.nodamnodam.server.domain.auth.application.UserLogoutService;
 import thisiscomedy.nodamnodam.server.domain.auth.application.UserRegisterService;
@@ -18,6 +19,7 @@ public class AuthController {
     private final UserLoginService userLoginService;
     private final UserRegisterService userRegisterService;
     private final UserLogoutService userLogoutService;
+    private final AccessTokenReissueService accessTokenReissueService;
 
     @PostMapping("/login")
     public ResponseEntity<TokenResponse> login(@RequestParam String code) {
@@ -32,5 +34,10 @@ public class AuthController {
     @DeleteMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request) {
         return ResponseEntity.ok(userLogoutService.execute(request));
+    }
+
+    @PutMapping("/refresh")
+    public ResponseEntity<TokenResponse> refresh(HttpServletRequest request) {
+        return ResponseEntity.ok(accessTokenReissueService.execute(request));
     }
 }
