@@ -25,7 +25,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = jwtUtil.resolveToken(request);
 
         if (token != null) {
-            if (refreshTokenGetService.isLoggedOutAccessToken(token)) {
+            if (!refreshTokenGetService.isLoggedInUser(token)) {
                 throw LoggedOutAccessTokenException.EXCEPTION;
             }
 

@@ -10,7 +10,7 @@ import org.springframework.data.redis.core.index.Indexed;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-@RedisHash
+@RedisHash(value = "nodam-rt")
 public class RefreshToken {
 
     @Id
@@ -24,4 +24,9 @@ public class RefreshToken {
 
     @TimeToLive
     private Long ttl;
+
+    public RefreshToken updateAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+        return this;
+    }
 }
