@@ -25,6 +25,7 @@ public class UserLoginService {
     private final GoogleAuthProperties googleAuthProperties;
     private final GoogleInfoClient googleInfoClient;
     private final JwtProvider jwtProvider;
+    private final RefreshTokenSaveService refreshTokenSaveService;
 
     public TokenResponse execute(String code) {
         code = code.replace("%2f", "/");
@@ -58,6 +59,10 @@ public class UserLoginService {
 
         Long userId = userGetService.findByEmail(email).getId();
 
-        return jwtProvider.createToken(userId);
+        TokenResponse tokenResponse = jwtProvider.createToken(userId);
+
+        refreshTokenSaveService.execute(tokenResponse, userId.toString());
+
+        return tokenResponse;
     }
 }

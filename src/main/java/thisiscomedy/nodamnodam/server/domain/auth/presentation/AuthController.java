@@ -32,8 +32,8 @@ public class AuthController {
     }
 
     @DeleteMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletRequest request) {
-        return ResponseEntity.ok(userLogoutService.execute(request));
+    public ResponseEntity<String> logout() {
+        return ResponseEntity.ok(userLogoutService.execute());
     }
 
     @PutMapping("/refresh")

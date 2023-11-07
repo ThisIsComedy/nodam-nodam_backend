@@ -11,7 +11,6 @@ import thisiscomedy.nodamnodam.server.global.security.auth.AuthDetails;
 import thisiscomedy.nodamnodam.server.global.security.auth.AuthDetailsService;
 
 import java.util.Collections;
-import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
@@ -50,19 +49,5 @@ public class JwtUtil {
 
     public Long getRefreshTokenExp() {
         return jwtProperties.getRefreshTokenExp();
-    }
-
-    public Long getExpTime(String token) {
-        long exp = Jwts.parserBuilder()
-                .setSigningKey(jwtProperties.getSecretKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getExpiration()
-                .getTime();
-
-        long currentTime = new Date().getTime();
-
-        return exp - currentTime;
     }
 }

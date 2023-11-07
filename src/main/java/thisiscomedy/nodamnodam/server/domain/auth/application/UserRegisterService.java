@@ -14,6 +14,7 @@ public class UserRegisterService {
 
     private final UserSaveService userSaveService;
     private final JwtProvider jwtProvider;
+    private final RefreshTokenSaveService refreshTokenSaveService;
 
     public TokenResponse execute(UserRegisterRequest request) {
         if (!userSaveService.userAdditionalInfoIsEmpty(request.email())) {
@@ -22,6 +23,10 @@ public class UserRegisterService {
 
         Long userId = userSaveService.updateUser(request);
 
-        return jwtProvider.createToken(userId);
+        TokenResponse tokenResponse = jwtProvider.createToken(userId);
+
+        refreshTokenSaveService.execute(tokenResponse, userId.toString());
+
+        return tokenResponse;
     }
 }
