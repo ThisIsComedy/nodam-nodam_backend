@@ -4,29 +4,31 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import thisiscomedy.nodamnodam.server.domain.user.exception.BadRequestException;
 import thisiscomedy.nodamnodam.server.global.jwt.dto.TokenResponse;
 import thisiscomedy.nodamnodam.server.global.jwt.exception.ExpiredTokenException;
 import thisiscomedy.nodamnodam.server.global.jwt.exception.InvalidTokenException;
 import thisiscomedy.nodamnodam.server.global.jwt.util.JwtProvider;
-import thisiscomedy.nodamnodam.server.global.jwt.util.JwtUtil;
 
 @Service
 @RequiredArgsConstructor
 public class AccessTokenReissueService {
 
     private final JwtProvider jwtProvider;
-    private final JwtUtil jwtUtil;
+    private final RefreshTokenUpdateService refreshTokenUpdateService;
 
     public TokenResponse execute(HttpServletRequest request) {
         try {
             String refreshToken = request.getHeader("Authorization-refresh").split(" ")[1].trim();
 
-            Long userId = Long.valueOf(jwtUtil.extractUserId(refreshToken));
+            String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+            refreshTokenUpdateService.execute(refreshToken, jwtProvider.createAccessToken(Long.valueOf(userId)));
 
             return new TokenResponse(
-                    jwtProvider.createAccessToken(userId),
+                    jwtProvider.createAccessToken(Long.valueOf(userId)),
                     refreshToken
             );
         } catch (NullPointerException e) {

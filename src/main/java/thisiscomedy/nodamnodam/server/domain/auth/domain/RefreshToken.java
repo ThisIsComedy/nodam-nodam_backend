@@ -24,4 +24,9 @@ public class RefreshToken {
 
     @TimeToLive
     private Long ttl;
+
+    public RefreshToken updateAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+        return this;
+    }
 }
