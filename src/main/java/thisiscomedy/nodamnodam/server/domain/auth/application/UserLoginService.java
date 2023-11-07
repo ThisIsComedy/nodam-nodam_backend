@@ -1,9 +1,11 @@
 package thisiscomedy.nodamnodam.server.domain.auth.application;
 
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import thisiscomedy.nodamnodam.server.domain.user.application.UserGetService;
 import thisiscomedy.nodamnodam.server.domain.user.application.UserSaveService;
+import thisiscomedy.nodamnodam.server.domain.user.exception.AlreadyUsedCodeException;
 import thisiscomedy.nodamnodam.server.domain.user.exception.OAuthTokenNotFoundException;
 import thisiscomedy.nodamnodam.server.domain.user.exception.UserInfoUnsatisfiedException;
 import thisiscomedy.nodamnodam.server.domain.user.exception.UserNotFoundException;
@@ -30,39 +32,43 @@ public class UserLoginService {
     public TokenResponse execute(String code) {
         code = code.replace("%2f", "/");
 
-        GoogleTokenResponse response = googleGetTokenClient.getToken(
-                new GoogleTokenRequest(
-                        googleAuthProperties.getClientId(),
-                        googleAuthProperties.getClientSecret(),
-                        code,
-                        googleAuthProperties.getGrantType(),
-                        googleAuthProperties.getRedirectUri()
-                )
-        );
+        try {
+            GoogleTokenResponse response = googleGetTokenClient.getToken(
+                    new GoogleTokenRequest(
+                            googleAuthProperties.getClientId(),
+                            googleAuthProperties.getClientSecret(),
+                            code,
+                            googleAuthProperties.getGrantType(),
+                            googleAuthProperties.getRedirectUri()
+                    )
+            );
 
-        String googleAccessToken = response.accessToken();
+            String googleAccessToken = response.accessToken();
 
-        if (googleAccessToken == null) {
-            throw OAuthTokenNotFoundException.EXCEPTION;
+            if (googleAccessToken == null) {
+                throw OAuthTokenNotFoundException.EXCEPTION;
+            }
+
+            String email = googleInfoClient.getUserInfo(googleAccessToken).email();
+
+            if (userSaveService.userIsEmpty(email)) {
+                userSaveService.save(email);
+                throw UserNotFoundException.EXCEPTION;
+            }
+
+            if (userSaveService.userAdditionalInfoIsEmpty(email)) {
+                throw UserInfoUnsatisfiedException.EXCEPTION(email);
+            }
+
+            Long userId = userGetService.findByEmail(email).getId();
+
+            TokenResponse tokenResponse = jwtProvider.createToken(userId);
+
+            refreshTokenSaveService.execute(tokenResponse, userId.toString());
+
+            return tokenResponse;
+        } catch (FeignException.FeignClientException.BadRequest e) {
+            throw AlreadyUsedCodeException.EXCEPTION;
         }
-
-        String email = googleInfoClient.getUserInfo(googleAccessToken).email();
-
-        if (userSaveService.userIsEmpty(email)) {
-            userSaveService.save(email);
-            throw UserNotFoundException.EXCEPTION;
-        }
-
-        if (userSaveService.userAdditionalInfoIsEmpty(email)) {
-            throw UserInfoUnsatisfiedException.EXCEPTION(email);
-        }
-
-        Long userId = userGetService.findByEmail(email).getId();
-
-        TokenResponse tokenResponse = jwtProvider.createToken(userId);
-
-        refreshTokenSaveService.execute(tokenResponse, userId.toString());
-
-        return tokenResponse;
     }
 }

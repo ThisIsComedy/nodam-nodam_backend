@@ -14,6 +14,8 @@ public enum ErrorCode {
     INVALID_TOKEN(403, "잘못된 토큰입니다."),
     EXPIRED_TOKEN(403, "만료된 토큰입니다."),
     LOGGED_OUT_TOKEN(403, "로그아웃 되어 사용할 수 없는 토큰입니다."),
+
+    ALREADY_USED_CODE(401, "이미 사용된 Google OAuth 인가 코드 입니다."),
     OAUTH_TOKEN_NOT_FOUNT(404, "OAuth 액세스 토큰을 찾을 수 없습니다."),
 
     BAD_REQUEST(401, "잘못된 파라미터"),
