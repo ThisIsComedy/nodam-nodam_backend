@@ -6,6 +6,7 @@ import thisiscomedy.nodamnodam.server.domain.auth.presentation.dto.request.UserR
 import thisiscomedy.nodamnodam.server.domain.user.domain.User;
 import thisiscomedy.nodamnodam.server.domain.user.exception.UserNotFoundException;
 import thisiscomedy.nodamnodam.server.domain.user.repository.UserRepository;
+import thisiscomedy.nodamnodam.server.global.feign.dto.response.GoogleInfoResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -13,8 +14,13 @@ public class UserSaveService {
 
     private final UserRepository userRepository;
 
-    public void save(String email) {
-        userRepository.save(User.builder().email(email).build());
+    public void save(GoogleInfoResponse response) {
+        userRepository.save(
+                User.builder()
+                        .email(response.email())
+                        .profileUrl(response.picture())
+                        .build()
+        );
     }
 
     public boolean userIsEmpty(String email) {

@@ -13,6 +13,7 @@ import thisiscomedy.nodamnodam.server.global.config.GoogleAuthProperties;
 import thisiscomedy.nodamnodam.server.global.feign.GoogleGetTokenClient;
 import thisiscomedy.nodamnodam.server.global.feign.GoogleInfoClient;
 import thisiscomedy.nodamnodam.server.global.feign.dto.request.GoogleTokenRequest;
+import thisiscomedy.nodamnodam.server.global.feign.dto.response.GoogleInfoResponse;
 import thisiscomedy.nodamnodam.server.global.feign.dto.response.GoogleTokenResponse;
 import thisiscomedy.nodamnodam.server.global.jwt.dto.TokenResponse;
 import thisiscomedy.nodamnodam.server.global.jwt.util.JwtProvider;
@@ -49,10 +50,11 @@ public class UserLoginService {
                 throw OAuthTokenNotFoundException.EXCEPTION;
             }
 
-            String email = googleInfoClient.getUserInfo(googleAccessToken).email();
+            GoogleInfoResponse userInfo = googleInfoClient.getUserInfo(googleAccessToken);
+            String email = userInfo.email();
 
             if (userSaveService.userIsEmpty(email)) {
-                userSaveService.save(email);
+                userSaveService.save(userInfo);
                 throw UserNotFoundException.EXCEPTION;
             }
 
