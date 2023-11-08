@@ -5,11 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import thisiscomedy.nodamnodam.server.domain.user.domain.User;
+import thisiscomedy.nodamnodam.server.global.entity.BaseTimeEntity;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class Stats {
+public class Stats extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
