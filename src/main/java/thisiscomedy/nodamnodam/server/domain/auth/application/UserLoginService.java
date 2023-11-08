@@ -3,6 +3,7 @@ package thisiscomedy.nodamnodam.server.domain.auth.application;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import thisiscomedy.nodamnodam.server.domain.user.application.UserGetService;
 import thisiscomedy.nodamnodam.server.domain.user.application.UserSaveService;
 import thisiscomedy.nodamnodam.server.domain.user.exception.AlreadyUsedCodeException;
@@ -20,6 +21,7 @@ import thisiscomedy.nodamnodam.server.global.jwt.util.JwtProvider;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserLoginService {
 
     private final UserGetService userGetService;
