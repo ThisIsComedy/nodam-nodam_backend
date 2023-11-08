@@ -35,9 +35,9 @@ public class UserSaveService {
                 && user.getCigarettePrice() == null;
     }
 
-    public Long updateUser(UserRegisterRequest request) {
+    public User updateUser(UserRegisterRequest request) {
         User user = userRepository.findByEmail(request.email()).get();
 
-        return userRepository.save(user.update(request)).getId();
+        return userRepository.save(user.update(request));
     }
 }
