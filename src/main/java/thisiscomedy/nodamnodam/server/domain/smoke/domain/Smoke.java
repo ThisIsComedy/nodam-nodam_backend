@@ -26,17 +26,17 @@ public class Smoke extends BaseTimeEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Where where;
+    private Place place;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Why why;
 
     @Builder
-    public Smoke(User user, Moment moment, Where where, Why why) {
+    public Smoke(User user, Moment moment, Place place, Why why) {
         this.user = user;
         this.moment = moment;
-        this.where = where;
+        this.place = place;
         this.why = why;
     }
 }
