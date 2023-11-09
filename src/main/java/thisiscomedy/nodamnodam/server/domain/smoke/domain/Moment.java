@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum When {
+public enum Moment {
 
     GO_TO_THE_OFFICE("출근길"),
     LEAVE_THE_OFFICE("퇴근길"),
