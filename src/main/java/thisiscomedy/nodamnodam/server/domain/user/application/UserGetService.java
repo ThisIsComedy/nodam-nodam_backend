@@ -22,6 +22,11 @@ public class UserGetService {
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
     }
 
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+    }
+
     public UserGetProfileResponse getProfile() {
         Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getName());
 
