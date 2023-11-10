@@ -6,7 +6,7 @@ spring:
 
   data:
     redis:
-      host: ${db.redis.host}
+      host: ${db.redis.prod-host}
       port: ${db.redis.port}
       password: ${db.redis.password}
 
