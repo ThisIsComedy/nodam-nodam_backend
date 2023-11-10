@@ -17,6 +17,11 @@ public class UserGetService {
     private final UserRepository userRepository;
     private final StatsGetService statsGetService;
 
+    public User getUser() {
+        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getName());
+        return findById(userId);
+    }
+
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
