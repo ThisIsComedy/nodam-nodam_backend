@@ -22,6 +22,10 @@ spring:
       ddl-auto: update
     open-in-view: false
 
+logging:
+  level:
+    org.springframework.core.LocalVariableTableParameterNameDiscoverer: error
+
 jwt:
   secretKey: ${jwt.secret}
   prefix: ${jwt.prefix}
