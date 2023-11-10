@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Where {
+public enum Place {
 
     IN_FRONT_OF_HOME("집 앞에서"),
     AT_WORK("직장에서"),
