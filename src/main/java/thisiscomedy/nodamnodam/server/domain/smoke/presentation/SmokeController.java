@@ -2,19 +2,26 @@ package thisiscomedy.nodamnodam.server.domain.smoke.presentation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import thisiscomedy.nodamnodam.server.domain.smoke.application.SmokeGetService;
 import thisiscomedy.nodamnodam.server.domain.smoke.application.SmokeSaveService;
 import thisiscomedy.nodamnodam.server.domain.smoke.presentation.dto.request.SmokeRequest;
+import thisiscomedy.nodamnodam.server.domain.smoke.presentation.dto.response.GrassGetResponse;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/smoke")
 @RequiredArgsConstructor
 public class SmokeController {
 
+    private final SmokeGetService smokeGetService;
     private final SmokeSaveService smokeSaveService;
+
+    @GetMapping
+    public ResponseEntity<List<GrassGetResponse>> getGrass() {
+        return ResponseEntity.ok(smokeGetService.getGrass());
+    }
 
     @PostMapping
     public ResponseEntity<Long> pressSmokeButton(@RequestBody SmokeRequest request) {
