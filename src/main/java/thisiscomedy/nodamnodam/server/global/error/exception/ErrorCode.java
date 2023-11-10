@@ -18,6 +18,8 @@ public enum ErrorCode {
     ALREADY_USED_CODE(401, "이미 사용된 Google OAuth 인가 코드 입니다."),
     OAUTH_TOKEN_NOT_FOUNT(404, "OAuth 액세스 토큰을 찾을 수 없습니다."),
 
+    ALREADY_PRESS_FAIL_BUTTON(401, "이미 금연 실패 버튼을 눌렀습니다."),
+
     BAD_REQUEST(401, "잘못된 파라미터"),
     INTERNAL_SERVER_ERROR(500, "서버 에러");
 

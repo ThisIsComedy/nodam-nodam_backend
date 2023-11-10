@@ -5,10 +5,13 @@ import org.springframework.stereotype.Repository;
 import thisiscomedy.nodamnodam.server.domain.smoke.domain.Smoke;
 import thisiscomedy.nodamnodam.server.domain.user.domain.User;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 public interface SmokeRepository extends JpaRepository<Smoke, Long> {
 
     List<Smoke> findByUser(User user);
+
+    boolean existsByCreatedAt(LocalDate date);
 }
