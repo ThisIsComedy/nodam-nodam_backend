@@ -1,7 +1,6 @@
 package thisiscomedy.nodamnodam.server.domain.smoke.application;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import thisiscomedy.nodamnodam.server.domain.smoke.exception.AlreadyPressFailButton;
 import thisiscomedy.nodamnodam.server.domain.smoke.presentation.dto.request.SmokeRequest;
@@ -20,8 +19,7 @@ public class SmokeSaveService {
     private final UserGetService userGetService;
 
     public Long execute(SmokeRequest request) {
-        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getName());
-        User userEntity = userGetService.findById(userId);
+        User userEntity = userGetService.getUser();
 
         if (smokeRepository.existsByCreatedAt(
                 new Date().toInstant()

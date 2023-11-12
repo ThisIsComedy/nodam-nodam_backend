@@ -23,7 +23,7 @@ public class UserGetService {
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
     }
 
-    public User findById(Long id) {
+    private User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
     }
