@@ -6,6 +6,7 @@ import thisiscomedy.nodamnodam.server.domain.smoke.exception.AlreadyPressFailBut
 import thisiscomedy.nodamnodam.server.domain.smoke.presentation.dto.request.SmokeRequest;
 import thisiscomedy.nodamnodam.server.domain.smoke.repository.SmokeRepository;
 import thisiscomedy.nodamnodam.server.domain.user.application.UserGetService;
+import thisiscomedy.nodamnodam.server.domain.user.application.UserSaveService;
 import thisiscomedy.nodamnodam.server.domain.user.domain.User;
 
 import java.time.ZoneId;
@@ -17,9 +18,10 @@ public class SmokeSaveService {
 
     private final SmokeRepository smokeRepository;
     private final UserGetService userGetService;
+    private final UserSaveService userSaveService;
 
     public Long execute(SmokeRequest request) {
-        User userEntity = userGetService.getUser();
+        User user = userGetService.getUser();
 
         if (smokeRepository.existsByCreatedAt(
                 new Date().toInstant()
@@ -28,6 +30,8 @@ public class SmokeSaveService {
             throw AlreadyPressFailButton.EXCEPTION;
         }
 
-        return smokeRepository.save(request.toEntity(userEntity)).getId();
+        userSaveService.updateNoSmokeStartAt(user);
+
+        return smokeRepository.save(request.toEntity(user)).getId();
     }
 }
