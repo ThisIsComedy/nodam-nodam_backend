@@ -38,6 +38,9 @@ public class User extends BaseTimeEntity {
     @Column(nullable = true)
     private LocalDate noSmokeStartAt;
 
+    @Column(nullable = true)
+    private Boolean isRanked;
+
     @Builder
     public User(String name, String email, String profileUrl, Integer smokePerDay, Integer cigarettePrice, LocalDate noSmokeStartAt) {
         this.name = name;
@@ -53,11 +56,17 @@ public class User extends BaseTimeEntity {
         this.smokePerDay = request.smokePerDay();
         this.cigarettePrice = request.cigarettePrice();
         this.noSmokeStartAt = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        this.isRanked = false;
         return this;
     }
 
     public User restartNoSmoke(LocalDate newDate) {
         this.noSmokeStartAt = newDate;
+        return this;
+    }
+
+    public User updateRankState(boolean state) {
+        this.isRanked = state;
         return this;
     }
 }
