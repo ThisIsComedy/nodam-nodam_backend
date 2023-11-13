@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import thisiscomedy.nodamnodam.server.domain.stats.application.StatsGetService;
 import thisiscomedy.nodamnodam.server.domain.stats.presentation.dto.response.StatsGetSummaryResponse;
+import thisiscomedy.nodamnodam.server.domain.stats.presentation.dto.response.StatsResponse;
 
 @RestController
 @RequestMapping("/api/stats")
@@ -18,5 +19,10 @@ public class StatsController {
     @GetMapping("/summary")
     public ResponseEntity<StatsGetSummaryResponse> getSummary() {
         return ResponseEntity.ok(statsGetService.getSummary());
+    }
+
+    @GetMapping("/details")
+    public ResponseEntity<StatsResponse> getDetails() {
+        return ResponseEntity.ok(statsGetService.getDetails());
     }
 }
