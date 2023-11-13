@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import thisiscomedy.nodamnodam.server.domain.user.application.UserGetProfileService;
 import thisiscomedy.nodamnodam.server.domain.user.application.UserGetService;
 import thisiscomedy.nodamnodam.server.domain.user.domain.User;
 import thisiscomedy.nodamnodam.server.domain.user.presentation.dto.response.UserGetProfileResponse;
@@ -15,6 +16,7 @@ import thisiscomedy.nodamnodam.server.domain.user.presentation.dto.response.User
 public class UserController {
 
     private final UserGetService userGetService;
+    private final UserGetProfileService userGetProfileService;
 
     @GetMapping
     public ResponseEntity<User> get() {
@@ -23,6 +25,6 @@ public class UserController {
 
     @GetMapping("/profile")
     public ResponseEntity<UserGetProfileResponse> getProfile() {
-        return ResponseEntity.ok(userGetService.getProfile());
+        return ResponseEntity.ok(userGetProfileService.execute());
     }
 }

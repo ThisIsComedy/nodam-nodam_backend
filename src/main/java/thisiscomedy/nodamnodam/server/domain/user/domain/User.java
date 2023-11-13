@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 import thisiscomedy.nodamnodam.server.domain.auth.presentation.dto.request.UserRegisterRequest;
 import thisiscomedy.nodamnodam.server.global.entity.BaseTimeEntity;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -31,19 +35,29 @@ public class User extends BaseTimeEntity {
     @Column(nullable = true)
     private Integer cigarettePrice;
 
+    @Column(nullable = true)
+    private LocalDate noSmokeStartAt;
+
     @Builder
-    public User(String name, String email, String profileUrl, Integer smokePerDay, Integer cigarettePrice) {
+    public User(String name, String email, String profileUrl, Integer smokePerDay, Integer cigarettePrice, LocalDate noSmokeStartAt) {
         this.name = name;
         this.email = email;
         this.profileUrl = profileUrl;
         this.smokePerDay = smokePerDay;
         this.cigarettePrice = cigarettePrice;
+        this.noSmokeStartAt = noSmokeStartAt;
     }
 
     public User update(UserRegisterRequest request) {
         this.name = request.name();
         this.smokePerDay = request.smokePerDay();
         this.cigarettePrice = request.cigarettePrice();
+        this.noSmokeStartAt = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return this;
+    }
+
+    public User restartNoSmoke(LocalDate newDate) {
+        this.noSmokeStartAt = newDate;
         return this;
     }
 }

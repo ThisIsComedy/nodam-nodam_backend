@@ -8,6 +8,9 @@ import thisiscomedy.nodamnodam.server.domain.user.exception.UserNotFoundExceptio
 import thisiscomedy.nodamnodam.server.domain.user.repository.UserRepository;
 import thisiscomedy.nodamnodam.server.global.feign.dto.response.GoogleInfoResponse;
 
+import java.time.ZoneId;
+import java.util.Date;
+
 @Service
 @RequiredArgsConstructor
 public class UserSaveService {
@@ -32,12 +35,17 @@ public class UserSaveService {
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
         return user.getName() == null
                 && user.getSmokePerDay() == null
-                && user.getCigarettePrice() == null;
+                && user.getCigarettePrice() == null
+                && user.getNoSmokeStartAt() == null;
     }
 
     public User updateUser(UserRegisterRequest request) {
         User user = userRepository.findByEmail(request.email()).get();
 
         return userRepository.save(user.update(request));
+    }
+
+    public void updateNoSmokeStartAt(User user) {
+        userRepository.save(user.restartNoSmoke(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
     }
 }
