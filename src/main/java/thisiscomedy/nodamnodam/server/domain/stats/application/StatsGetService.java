@@ -1,7 +1,9 @@
 package thisiscomedy.nodamnodam.server.domain.stats.application;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import thisiscomedy.nodamnodam.server.domain.rank.presentation.dto.response.RankResponse;
 import thisiscomedy.nodamnodam.server.domain.smoke.application.SmokeGetService;
 import thisiscomedy.nodamnodam.server.domain.smoke.presentation.dto.response.GrassGetResponse;
 import thisiscomedy.nodamnodam.server.domain.smoke.presentation.dto.response.SmokeCauseResponse;
@@ -53,5 +55,9 @@ public class StatsGetService {
                 grassGetResponse,
                 smokeCauseResponse
         );
+    }
+
+    public List<RankResponse> getRank() {
+        return statsRepository.getRank(PageRequest.of(0, 50));
     }
 }

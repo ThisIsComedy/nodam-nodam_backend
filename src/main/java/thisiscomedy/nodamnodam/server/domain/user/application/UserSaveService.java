@@ -48,4 +48,8 @@ public class UserSaveService {
     public void updateNoSmokeStartAt(User user) {
         userRepository.save(user.restartNoSmoke(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
     }
+
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
 }
