@@ -64,7 +64,10 @@ public class Stats extends BaseTimeEntity {
         saveMoney += packsPerDay * cigarettePrice + cigarettePrice / (20 - remainingCigarettes);
         noSmokeDay += 1;
         currentContinuityNoSmoke += 1;
-        maximumContinuityNoSmoke += 1;
+
+        if (maximumContinuityNoSmoke < currentContinuityNoSmoke) {
+            maximumContinuityNoSmoke += 1;
+        }
 
         LocalDate userNoSmokeStartAt = user.getNoSmokeStartAt();
         LocalDate currentDate = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
