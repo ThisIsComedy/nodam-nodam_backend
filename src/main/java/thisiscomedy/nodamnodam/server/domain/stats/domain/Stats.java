@@ -55,8 +55,14 @@ public class Stats extends BaseTimeEntity {
     }
 
     public Stats updateByScheduling() {
+        int cigarettePrice = user.getCigarettePrice();
+        int smokePerDay = user.getSmokePerDay();
+
+        int packsPerDay = smokePerDay / 20;
+        int remainingCigarettes = smokePerDay % 20;
+
+        saveMoney += packsPerDay * cigarettePrice + cigarettePrice / (20 - remainingCigarettes);
         noSmokeDay += 1;
-        saveMoney += user.getCigarettePrice();
         currentContinuityNoSmoke += 1;
         maximumContinuityNoSmoke += 1;
 
