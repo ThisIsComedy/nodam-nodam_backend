@@ -48,4 +48,9 @@ public class Stats extends BaseTimeEntity {
         this.threeDayContinuityNoSmoke = threeDayContinuityNoSmoke;
         this.smokeCount = smokeCount;
     }
+
+    public Stats updateSmokeCount() {
+        this.smokeCount += 1;
+        return this;
+    }
 }
