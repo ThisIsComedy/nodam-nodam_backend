@@ -27,7 +27,13 @@ public class SmokeGetService {
 
     public SmokeCauseResponse getCauseStats() {
         User user = userGetService.getUser();
-        return smokeRepository.getSmokeCauseStats(user).get(0);
+        List<SmokeCauseResponse> smokeCauseResponseList = smokeRepository.getSmokeCauseStats(user);
+
+        if (smokeCauseResponseList.isEmpty()) {
+            return null;
+        }
+
+        return smokeCauseResponseList.get(0);
     }
 
     public boolean isSmokedToday(User user) {
