@@ -29,4 +29,8 @@ public class SmokeGetService {
         User user = userGetService.getUser();
         return smokeRepository.getSmokeCauseStats(user).get(0);
     }
+
+    public boolean isSmokedToday(User user) {
+        return smokeRepository.existsByUser(user);
+    }
 }

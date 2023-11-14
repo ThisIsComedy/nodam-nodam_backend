@@ -36,7 +36,7 @@ public class SmokeSaveService {
 
         userSaveService.updateNoSmokeStartAt(user);
 
-        statsUpdateService.updateSmokeCount(statsGetService.getStats(user));
+        statsUpdateService.updateWhenSmoke(statsGetService.getStats(user));
 
         return smokeRepository.save(request.toEntity(user)).getId();
     }
