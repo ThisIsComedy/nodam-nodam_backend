@@ -22,13 +22,13 @@ public class AccessTokenReissueService {
     public TokenResponse execute(HttpServletRequest request) {
         try {
             String refreshToken = request.getHeader("Authorization-refresh").split(" ")[1].trim();
-
             String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+            String newAccessToken = jwtProvider.createAccessToken(Long.valueOf(userId));
 
-            refreshTokenUpdateService.execute(refreshToken, jwtProvider.createAccessToken(Long.valueOf(userId)));
+            refreshTokenUpdateService.execute(refreshToken, newAccessToken);
 
             return new TokenResponse(
-                    jwtProvider.createAccessToken(Long.valueOf(userId)),
+                    newAccessToken,
                     refreshToken
             );
         } catch (NullPointerException e) {
