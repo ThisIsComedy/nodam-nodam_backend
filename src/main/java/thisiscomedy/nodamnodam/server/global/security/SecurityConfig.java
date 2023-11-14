@@ -30,7 +30,8 @@ public class SecurityConfig {
 
     private final String[] whiteList = {
             "/api/auth/login",
-            "/api/auth/register"
+            "/api/auth/register",
+            "/api/auth/refresh"
     };
 
     @Bean
