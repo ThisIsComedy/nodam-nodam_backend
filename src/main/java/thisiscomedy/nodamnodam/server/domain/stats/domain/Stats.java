@@ -7,6 +7,11 @@ import lombok.NoArgsConstructor;
 import thisiscomedy.nodamnodam.server.domain.user.domain.User;
 import thisiscomedy.nodamnodam.server.global.entity.BaseTimeEntity;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -47,5 +52,26 @@ public class Stats extends BaseTimeEntity {
         this.maximumContinuityNoSmoke = maximumContinuityNoSmoke;
         this.threeDayContinuityNoSmoke = threeDayContinuityNoSmoke;
         this.smokeCount = smokeCount;
+    }
+
+    public Stats updateByScheduling() {
+        noSmokeDay += 1;
+        saveMoney += user.getCigarettePrice();
+        currentContinuityNoSmoke += 1;
+        maximumContinuityNoSmoke += 1;
+
+        LocalDate userNoSmokeStartAt = user.getNoSmokeStartAt();
+        LocalDate currentDate = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        threeDayContinuityNoSmoke = Math.abs(Math.toIntExact(ChronoUnit.DAYS.between(currentDate, userNoSmokeStartAt))) / 3;
+
+        return this;
+    }
+
+    public Stats updateWhenSmoke() {
+        this.smokeCount += 1;
+        this.currentContinuityNoSmoke = 0;
+        this.threeDayContinuityNoSmoke = 0;
+        return this;
     }
 }

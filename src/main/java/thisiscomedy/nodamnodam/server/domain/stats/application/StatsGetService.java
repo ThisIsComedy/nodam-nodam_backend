@@ -7,6 +7,7 @@ import thisiscomedy.nodamnodam.server.domain.rank.presentation.dto.response.Rank
 import thisiscomedy.nodamnodam.server.domain.smoke.application.SmokeGetService;
 import thisiscomedy.nodamnodam.server.domain.smoke.presentation.dto.response.GrassGetResponse;
 import thisiscomedy.nodamnodam.server.domain.smoke.presentation.dto.response.SmokeCauseResponse;
+import thisiscomedy.nodamnodam.server.domain.stats.domain.Stats;
 import thisiscomedy.nodamnodam.server.domain.stats.presentation.dto.response.StatsGetBadgeResponse;
 import thisiscomedy.nodamnodam.server.domain.stats.presentation.dto.response.StatsGetDetailsResponse;
 import thisiscomedy.nodamnodam.server.domain.stats.presentation.dto.response.StatsGetSummaryResponse;
@@ -59,5 +60,10 @@ public class StatsGetService {
 
     public List<RankResponse> getRank() {
         return statsRepository.getRank(PageRequest.of(0, 50));
+    }
+
+    public Stats getStats(User user) {
+        return statsRepository.findByUser(user)
+                .orElse(null);
     }
 }

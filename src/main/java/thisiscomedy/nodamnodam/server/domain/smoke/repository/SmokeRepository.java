@@ -18,6 +18,8 @@ public interface SmokeRepository extends JpaRepository<Smoke, Long> {
 
     boolean existsByCreatedAt(LocalDate date);
 
+    boolean existsByUser(User user);
+
     @Query(value = """
         select new thisiscomedy.nodamnodam.server.domain.smoke.presentation.dto.response.SmokeCauseResponse(
             s1.moment, s1.count,
