@@ -55,7 +55,7 @@ public class UserLoginService {
 
             if (userSaveService.userIsEmpty(email)) {
                 userSaveService.save(userInfo);
-                throw UserNotFoundException.EXCEPTION;
+                throw UserNotFoundException.EXCEPTION(email);
             }
 
             if (userSaveService.userAdditionalInfoIsEmpty(email)) {
