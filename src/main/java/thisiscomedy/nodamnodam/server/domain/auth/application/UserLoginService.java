@@ -70,6 +70,7 @@ public class UserLoginService {
 
             return tokenResponse;
         } catch (FeignException.FeignClientException.BadRequest e) {
+            e.printStackTrace();
             throw AlreadyUsedCodeException.EXCEPTION;
         }
     }
