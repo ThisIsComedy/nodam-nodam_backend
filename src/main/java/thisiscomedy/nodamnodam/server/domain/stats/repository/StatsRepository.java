@@ -21,7 +21,6 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             s.user.name, s.user.profileUrl, s.threeDayContinuityNoSmoke
         )
         from Stats s
-        where s.user.isRanked = true
         order by s.threeDayContinuityNoSmoke desc
     """)
     List<RankResponse> getRank(Pageable pageable);
