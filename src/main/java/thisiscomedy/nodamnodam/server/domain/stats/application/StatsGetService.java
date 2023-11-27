@@ -53,7 +53,7 @@ public class StatsGetService {
 
         return new StatsResponse(
                 detailsResponse,
-                userSmokedAtResponse.userSmokedAtResponses(),
+                userSmokedAtResponse,
                 smokeCauseResponse
         );
     }
