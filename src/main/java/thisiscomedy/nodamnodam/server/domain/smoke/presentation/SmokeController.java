@@ -8,8 +8,6 @@ import thisiscomedy.nodamnodam.server.domain.smoke.application.SmokeSaveService;
 import thisiscomedy.nodamnodam.server.domain.smoke.presentation.dto.request.SmokeRequest;
 import thisiscomedy.nodamnodam.server.domain.smoke.presentation.dto.response.GrassGetResponse;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/smoke")
 @RequiredArgsConstructor
@@ -19,7 +17,7 @@ public class SmokeController {
     private final SmokeSaveService smokeSaveService;
 
     @GetMapping
-    public ResponseEntity<List<GrassGetResponse>> getGrass() {
+    public ResponseEntity<GrassGetResponse> getGrass() {
         return ResponseEntity.ok(smokeGetService.getGrass());
     }
 

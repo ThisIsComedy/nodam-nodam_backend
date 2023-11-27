@@ -47,13 +47,13 @@ public class StatsGetService {
                 .map(StatsGetDetailsResponse::new)
                 .orElse(null);
 
-        List<GrassGetResponse> grassGetResponse = smokeGetService.getGrass();
+        GrassGetResponse userSmokedAtResponse = smokeGetService.getGrass();
 
         SmokeCauseResponse smokeCauseResponse = smokeGetService.getCauseStats();
 
         return new StatsResponse(
                 detailsResponse,
-                grassGetResponse,
+                userSmokedAtResponse.userSmokedAtResponses(),
                 smokeCauseResponse
         );
     }

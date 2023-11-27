@@ -3,6 +3,7 @@ package thisiscomedy.nodamnodam.server.domain.smoke.application;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import thisiscomedy.nodamnodam.server.domain.smoke.presentation.dto.response.GrassGetResponse;
+import thisiscomedy.nodamnodam.server.domain.smoke.presentation.dto.response.UserSmokedAtResponse;
 import thisiscomedy.nodamnodam.server.domain.smoke.presentation.dto.response.SmokeCauseResponse;
 import thisiscomedy.nodamnodam.server.domain.smoke.repository.SmokeRepository;
 import thisiscomedy.nodamnodam.server.domain.user.application.UserGetService;
@@ -17,12 +18,17 @@ public class SmokeGetService {
     private final SmokeRepository smokeRepository;
     private final UserGetService userGetService;
 
-    public List<GrassGetResponse> getGrass() {
+    public GrassGetResponse getGrass() {
         User user = userGetService.getUser();
 
-        return smokeRepository.findByUser(user).stream()
-                .map(GrassGetResponse::new)
+        List<UserSmokedAtResponse> smoked = smokeRepository.findByUser(user).stream()
+                .map(UserSmokedAtResponse::new)
                 .toList();
+
+        return new GrassGetResponse(
+                user.getCreatedAt(),
+                smoked
+        );
     }
 
     public SmokeCauseResponse getCauseStats() {
