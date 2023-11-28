@@ -5,5 +5,5 @@ import java.util.List;
 
 public record GrassGetResponse(
         LocalDate userCreatedAt,
-        List<UserSmokedAtResponse> userSmokedAtResponses
+        List<LocalDate> userSmokedAtResponses
 ) {}
