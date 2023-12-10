@@ -13,7 +13,7 @@ public enum Place {
     ALLEY("골목에서"),
     PARK("공원에서"),
     INTERNET_CAFE("PC방에서"),
-    KARAOKE("노래방"),
+    STREET("길거리에서"),
     ETC("기타");
 
     private final String details;
