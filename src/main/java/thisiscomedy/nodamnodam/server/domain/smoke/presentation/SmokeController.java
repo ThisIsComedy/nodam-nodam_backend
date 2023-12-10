@@ -25,4 +25,9 @@ public class SmokeController {
     public ResponseEntity<Long> pressSmokeButton(@RequestBody SmokeRequest request) {
         return ResponseEntity.ok(smokeSaveService.execute(request));
     }
+
+    @GetMapping("/check")
+    public ResponseEntity<Boolean> checkSmoked() {
+        return ResponseEntity.ok(smokeGetService.isSmokedToday());
+    }
 }

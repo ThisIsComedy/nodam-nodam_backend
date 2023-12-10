@@ -43,6 +43,10 @@ public class SmokeGetService {
         return smokeCauseResponseList.get(0);
     }
 
+    public boolean isSmokedToday() {
+        return smokeRepository.existsByUser(userGetService.getUser());
+    }
+
     public boolean isSmokedToday(User user) {
         return smokeRepository.existsByUser(user);
     }
